@@ -12,3 +12,15 @@ canvas{
     display: block;
     margin:0 auto;
 }
+
+.game {
+  /* visibility: hidden; */
+}
+
+#start {
+  font-size: 30px;
+  color: white;
+  background-color: #6de41b;
+  border-color: #daffc1b0;
+  border-radius: 5px;
+}

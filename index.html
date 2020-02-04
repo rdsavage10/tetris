@@ -9,11 +9,18 @@
 </head>
 <body>
   <header>
-    <h1>Tetris code along</h1>
+    <h1>Tetris</h1>
+    <h2 class="main-menu">Menu</h2>
   </header>
-  <canvas id="game-board" width="300" height="600"></canvas>
-  <div>
-    Score: <div id="score">0</div>
+
+  <div class="main-menu">
+    <button type="button" name="start" id="start">New Game</button>
+  </div>
+
+
+  <canvas class="game" id="game-board" width="300" height="600"></canvas>
+  <div class="game" id="score">
+    Score: 0
   </div>
   <script type="text/javascript" src="src/tetromino.js"></script>
   <script type="text/javascript" src="src/game.js"></script>

@@ -4,12 +4,17 @@
 const cvs = document.getElementById('game-board');
 const ctx = cvs.getContext('2d');
 const scoreElement = document.getElementById('score');
+const start = document.getElementById('start');
 
-const ROW = 20;
-const COL = 10; //column
+let row = 20;
+let col = 10; //column
 const SQ = 30; //square size
 const VACANT = 'white';
-let score = 0;
+let score;
+let gameOver;
+let dropStart;
+let p;
+let board = [];
 
 function drawSquare(x, y, color) {
   ctx.fillStyle = color;
@@ -22,35 +27,18 @@ function drawSquare(x, y, color) {
 
 // create board
 
-let board = [];
-for (let r = 0; r < ROW; r++) {
-  board[r] = [];
-  for (let c = 0; c < COL; c++) {
-    board[r][c] = VACANT;
-  }
-}
-
 function drawBoard() {
 
-  for (let r = 0; r < ROW; r++) {
-    for (let c = 0; c < COL; c++) {
+  for (let r = 0; r < row; r++) {
+    for (let c = 0; c < col; c++) {
       drawSquare(c, r, board[r][c]);
     }
   }
 }
 
 
-const PIECES = [
-  [Z,'red'],
-  [S,'green'],
-  [T,'purple'],
-  [O,'yellow'],
-  [L,'orange'],
-  [I,'cyan'],
-  [J,'blue'],
-];
-
 function randomPiece() {
+
   let r = Math.floor(Math.random() * PIECES.length);
   return new Piece( PIECES[r][0],PIECES[r][1]);
 }
@@ -116,7 +104,7 @@ Piece.prototype.rotate = function() {
   let kick = 0;
 
   if (this.collision(0,0,newPattern)) {
-    if (this.x > COL/2) {
+    if (this.x > col/2) {
       kick = -1;
     } else {
       kick = 1;
@@ -148,25 +136,25 @@ Piece.prototype.lock = function() {
     }
   }
 
-  for (let r = 0; r < ROW; r++) {
+  for (let r = 0; r < row; r++) {
     let isRowFull = true;
-    for (var c = 0; c < COL; c++) {
+    for (var c = 0; c < col; c++) {
       isRowFull = isRowFull && (board[r][c] != VACANT);
     }
     if (isRowFull) {
       for (let y = r; y > 1; y--) {
-        for (let c = 0; c < COL; c++) {
+        for (let c = 0; c < col; c++) {
           board[y][c] = board[y - 1][c];
         }
       }
-      for ( let c = 0; c < COL; c++) {
+      for ( let c = 0; c < col; c++) {
         board[0][c] = VACANT;
       }
-      score += COL;
+      score += col;
     }
   }
   drawBoard();
-  scoreElement.innerHTML = score;
+  scoreElement.innerHTML = 'Score: ' + score;
 };
 
 Piece.prototype.collision = function(x, y, piece) {
@@ -179,7 +167,7 @@ Piece.prototype.collision = function(x, y, piece) {
       let newX = this.x + c + x;
       let newY = this.y + r + y;
 
-      if (newX < 0 || newX >= COL || newY >= ROW) {
+      if (newX < 0 || newX >= col || newY >= row) {
           return true;
       }
 
@@ -201,6 +189,23 @@ Piece.prototype.collision = function(x, y, piece) {
 
 document.addEventListener('keydown', CONTROL);
 
+
+
+function drop() {
+
+  let now = Date.now();
+  let deltaTime = now - dropStart;
+
+  if (deltaTime > 1000) {
+    p.moveDown();
+    dropStart = Date.now();
+  }
+
+  if (!gameOver) {
+    requestAnimationFrame(drop);
+  }
+}
+
 function CONTROL(event) {
 
   if (event.keyCode === 37) {
@@ -217,26 +222,25 @@ function CONTROL(event) {
   }
 }
 
-let gameOver = false;
-let dropStart = Date.now();
-function drop() {
+start.addEventListener('click', newGame);
 
-  let now = Date.now();
-  let deltaTime = now - dropStart;
+function newGame() {
+  row = 20;
+  col = 10;
+  score = 0;
+  gameOver = false;
+  dropStart = Date.now();
+  p = randomPiece();
 
-  if (deltaTime > 1000) {
-    p.moveDown();
-    dropStart = Date.now();
+  board = [];
+  for (let r = 0; r < row; r++) {
+    board[r] = [];
+    for (let c = 0; c < col; c++) {
+      board[r][c] = VACANT;
+    }
   }
-
-  if (!gameOver) {
-    requestAnimationFrame(drop);
-  }
+    gameOver = false;
+  drawBoard();
+  p.draw();
+  drop();
 }
-
-let p = randomPiece();
-
-drawBoard();
-// console.table(p);
-p.draw();
-drop();
