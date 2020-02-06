@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-
+// const game = document.getElementsByClassName('game');
 const cvs = document.getElementById('game-board');
 const ctx = cvs.getContext('2d');
 const scoreElement = document.getElementById('score');
@@ -243,6 +243,8 @@ function newGame() {
   }
     gameOver = false;
   drawBoard();
+  cvs.style.display = 'block';
+  scoreElement.style.display = 'block';
   p.draw();
   drop();
 }
