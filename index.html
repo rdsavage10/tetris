@@ -10,13 +10,15 @@
 <body>
   <header>
     <h1>Tetris</h1>
-    <h2 class="main-menu">Menu</h2>
   </header>
+  <div class="menu-collapse">
+    <input type="checkbox" id="menu">
+    <label for="menu">Menu</label>
+    <div class="menu-content">
+      <button type="button" name="start" id="start">New Game</button>
 
-  <div class="main-menu">
-    <button type="button" name="start" id="start">New Game</button>
+    </div>
   </div>
-
 
   <canvas class="game" id="game-board" width="300" height="600"></canvas>
   <div class="game" id="score">
