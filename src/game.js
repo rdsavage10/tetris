@@ -1,20 +1,28 @@
 /*jshint esversion: 6 */
 
 // const game = document.getElementsByClassName('game');
+const menuLabel = document.getElementById('menu-label');
+const menu = document.getElementById('menu');
 const cvs = document.getElementById('game-board');
+const cvs2 = document.getElementById('preview');
 const ctx = cvs.getContext('2d');
+const ctx2 = cvs2.getContext('2d');
 const scoreElement = document.getElementById('score');
 const start = document.getElementById('start');
 
 let row = 20;
 let col = 10; //column
+const previewRow = 4;
+const previewCol = 4;
 const SQ = 30; //square size
 const VACANT = 'white';
 let score;
 let gameOver;
 let dropStart;
 let p;
+let p2;
 let board = [];
+let board2 = [];
 
 function drawSquare(x, y, color) {
   ctx.fillStyle = color;
@@ -23,9 +31,6 @@ function drawSquare(x, y, color) {
   ctx.strokeStyle = 'black';
   ctx.strokeRect(x*SQ, y*SQ, SQ, SQ);
 }
-// drawSquare(1,1,'red');
-
-// create board
 
 function drawBoard() {
 
@@ -35,6 +40,24 @@ function drawBoard() {
     }
   }
 }
+
+function drawSquare2(x, y, color) {
+  ctx2.fillStyle = color;
+  ctx2.fillRect(x*SQ, y*SQ, SQ, SQ);
+
+  ctx2.strokeStyle = 'black';
+  ctx2.strokeRect(x*SQ, y*SQ, SQ, SQ);
+}
+
+function drawBoard2() {
+  for (let r = 0; r < previewRow; r++) {
+    for (let c = 0; c < previewCol; c++) {
+      drawSquare2(c, r, board[r][c]);
+    }
+  }
+}
+
+
 
 
 function randomPiece() {
@@ -64,8 +87,22 @@ Piece.prototype.fill = function(color) {
   }
 };
 
+Piece.prototype.previewFill = function(color) {
+  for ( r = 0; r < this.activeTetromino.length; r++){
+    for (c = 0; c < this.activeTetromino.length; c++){
+      if ( this.activeTetromino[r][c]){
+          drawSquare2(c, r, color);
+      }
+    }
+  }
+};
+
 Piece.prototype.draw = function() {
   this.fill(this.color);
+};
+
+Piece.prototype.drawPreveiw = function() {
+  this.previewFill(this.color);
 };
 
 Piece.prototype.undraw = function() {
@@ -79,7 +116,9 @@ Piece.prototype.moveDown = function() {
     this.draw();
   } else {
     this.lock();
-    p = randomPiece();
+    p = p2;
+    p2 = randomPiece();
+    p2.drawPreveiw();
   }
 };
 
@@ -154,6 +193,7 @@ Piece.prototype.lock = function() {
     }
   }
   drawBoard();
+  drawBoard2();
   scoreElement.innerHTML = 'Score: ' + score;
 };
 
@@ -233,6 +273,7 @@ function newGame() {
   gameOver = false;
   dropStart = Date.now();
   p = randomPiece();
+  p2 = randomPiece();
 
   board = [];
   for (let r = 0; r < row; r++) {
@@ -243,8 +284,24 @@ function newGame() {
   }
     gameOver = false;
   drawBoard();
+  drawBoard2();
   cvs.style.display = 'block';
   scoreElement.style.display = 'block';
   p.draw();
+  p2.drawPreveiw();
   drop();
 }
+
+menuLabel.addEventListener("mouseenter", function( event ) {
+  if (menu.checked) {
+    event.target.innerHTML = "Expand";
+  } else {
+    event.target.innerHTML = "Collapse";
+  }
+
+});
+
+menuLabel.addEventListener("mouseleave", function( event ) {
+  event.target.innerHTML = "Menu";
+
+});

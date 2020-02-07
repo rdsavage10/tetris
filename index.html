@@ -13,15 +13,17 @@
   </header>
   <div class="menu-collapse">
     <input type="checkbox" id="menu">
-    <label for="menu">Menu</label>
+    <label for="menu" id="menu-label">Menu</label>
     <div class="menu-content">
         <button type="button" name="start" id="start">New Game</button>
     </div>
   </div>
-
-  <canvas class="game" id="game-board" width="300" height="600"></canvas>
-  <div class="game" id="score">
-    Score: 0
+  <div>
+    <canvas class="game" id="game-board" width="300" height="600"></canvas>
+    <canvas id="preview" width="120" height="120">preview</canvas>
+    <div class="game" id="score">
+      Score: 0
+    </div>
   </div>
   <script type="text/javascript" src="src/tetromino.js"></script>
   <script type="text/javascript" src="src/game.js"></script>
