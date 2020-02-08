@@ -105,6 +105,7 @@ Piece.prototype.moveDown = function() {
       drawBoard(previewRow, previewCol, ctx2);
       return;
     }
+    this.lineClear();
     p = p2;
     p2 = randomPiece();
     p2.drawPreveiw();
@@ -171,27 +172,33 @@ Piece.prototype.lock = function() {
       board[this.y + r][this.x + c] = this.color;
     }
   }
+};
 
-  for (let r = 0; r < row; r++) {
-    let isRowFull = true;
-    for (var c = 0; c < col; c++) {
-      isRowFull = isRowFull && (board[r][c] != VACANT);
-    }
-    if (isRowFull) {
-      for (let y = r; y > 1; y--) {
-        for (let c = 0; c < col; c++) {
-          board[y][c] = board[y - 1][c];
+Piece.prototype.lineClear = function() {
+    let points = 0;
+    let combo = 0;
+    for (let r = 0; r < row; r++) {
+      let isRowFull = true;
+      for (var c = 0; c < col; c++) {
+        isRowFull = isRowFull && (board[r][c] != VACANT);
+      }
+      if (isRowFull) {
+        for (let y = r; y > 1; y--) {
+          for (let c = 0; c < col; c++) {
+            board[y][c] = board[y - 1][c];
+          }
         }
+        for (let c = 0; c < col; c++) {
+          board[0][c] = VACANT;
+        }
+        points += col;
+        combo++;
       }
-      for (let c = 0; c < col; c++) {
-        board[0][c] = VACANT;
-      }
-      score += col;
     }
-  }
-  drawBoard(gameRow, gameCol, ctx);
-  drawBoard(previewRow, previewCol, ctx2);
-  scoreElement.innerHTML = 'Score: ' + score;
+    score += points * combo;
+    drawBoard(gameRow, gameCol, ctx);
+    drawBoard(previewRow, previewCol, ctx2);
+    scoreElement.innerHTML = 'Score: ' + score;
 };
 
 Piece.prototype.collision = function(x, y, piece) {
