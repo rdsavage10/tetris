@@ -2,15 +2,16 @@ header {
   text-align: center;
 }
 
-div{
+div {
     font-size: 25px;
     font-weight: bold;
     font-family: monospace;
     text-align: center;
 }
-canvas{
+
+canvas {
     display: block;
-    margin:0 auto;
+    margin: 20px auto;
 }
 
 .game {
@@ -55,4 +56,8 @@ input#menu:checked ~ .menu-content {
   left: 250px;
   bottom: 600px;
   /* margin-left: 75%; */
+}
+
+#score {
+  margin: 20px;
 }
