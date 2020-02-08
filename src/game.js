@@ -11,8 +11,8 @@ const scoreElement = document.getElementById('score');
 const nextElement = document.getElementById('next')
 const start = document.getElementById('start');
 
-let row = 20;
-let col = 10; //column
+let gameRow = 20;
+let gameCol = 10; //column
 const previewRow = 4;
 const previewCol = 4;
 const SQ = 30; //square size
@@ -33,19 +33,10 @@ function drawSquare(x, y, color, canvas) {
 }
 
 
-function drawBoard() {
+function drawBoard(row, col, canvas) {
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
-      drawSquare(c, r, board[r][c], ctx);
-    }
-  }
-}
-
-
-function drawBoard2() {
-  for (let r = 0; r < previewRow; r++) {
-    for (let c = 0; c < previewCol; c++) {
-      drawSquare(c, r, board[r][c], ctx2);
+      drawSquare(c, r, board[r][c], canvas);
     }
   }
 }
@@ -181,8 +172,8 @@ Piece.prototype.lock = function() {
       score += col;
     }
   }
-  drawBoard();
-  drawBoard2();
+  drawBoard(gameRow, gameCol, ctx);
+  drawBoard(previewRow, previewCol, ctx2);
   scoreElement.innerHTML = 'Score: ' + score;
 };
 
@@ -266,8 +257,8 @@ function newGame() {
     }
   }
     gameOver = false;
-  drawBoard();
-  drawBoard2();
+  drawBoard(gameRow, gameCol, ctx);
+  drawBoard(previewRow, previewCol, ctx2);
   cvs.style.display = 'block';
   scoreElement.style.display = 'block';
   nextElement.style.display = 'inline';
