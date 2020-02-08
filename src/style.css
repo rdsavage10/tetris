@@ -58,6 +58,12 @@ input#menu:checked ~ .menu-content {
   /* margin-left: 75%; */
 }
 
+#next {
+  position: relative;
+  left: 250px;
+  bottom: 600px;
+}
+
 #score {
   margin: 20px;
 }

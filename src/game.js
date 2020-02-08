@@ -18,6 +18,7 @@ const previewCol = 4;
 const SQ = 30; //square size
 const VACANT = 'white';
 let score;
+let difficulty = 1.1;
 let gameOver;
 let dropStart;
 let p;
@@ -209,7 +210,12 @@ Piece.prototype.collision = function(x, y, piece) {
 function drop() {
   let now = Date.now();
   let deltaTime = now - dropStart;
-  let delay = 1000 - score * 1.2;
+  let delay;
+  if (score * difficulty < 950) {
+    delay = 1000 - (score * difficulty);
+  } else {
+    delay = 50;
+  }
   if (deltaTime > delay) {
     p.moveDown();
     dropStart = Date.now();
@@ -261,6 +267,7 @@ function newGame() {
   drawBoard(gameRow, gameCol, ctx);
   drawBoard(previewRow, previewCol, ctx2);
   cvs.style.display = 'block';
+  scoreElement.innerHTML = 'Score: ' + score;
   scoreElement.style.display = 'block';
   nextElement.style.display = 'inline';
   p.draw();
