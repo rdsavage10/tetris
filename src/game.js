@@ -44,7 +44,7 @@ function drawBoard(row, col, canvas) {
 
 function randomPiece() {
   let r = Math.floor(Math.random() * PIECES.length);
-  return new Piece( PIECES[r][0], PIECES[r][1]);
+  return new Piece(PIECES[r][0], PIECES[r][1]);
 }
 
 
@@ -58,9 +58,9 @@ function Piece(tetromino, color) {
 }
 
 Piece.prototype.fill = function(color) {
-  for ( r = 0; r < this.activeTetromino.length; r++){
+  for (r = 0; r < this.activeTetromino.length; r++){
     for (c = 0; c < this.activeTetromino.length; c++){
-      if ( this.activeTetromino[r][c]){
+      if (this.activeTetromino[r][c]){
           drawSquare(this.x + c,this.y + r, color, ctx);
       }
     }
@@ -68,9 +68,9 @@ Piece.prototype.fill = function(color) {
 };
 
 Piece.prototype.previewFill = function(color) {
-  for ( r = 0; r < this.activeTetromino.length; r++){
+  for  r = 0; r < this.activeTetromino.length; r++){
     for (c = 0; c < this.activeTetromino.length; c++){
-      if ( this.activeTetromino[r][c]){
+      if (this.activeTetromino[r][c]){
           drawSquare(c, r, color, ctx2);
       }
     }
@@ -141,7 +141,7 @@ Piece.prototype.rotate = function() {
 };
 
 Piece.prototype.lock = function() {
-  for( let r = 0; r < this.activeTetromino.length; r++){
+  for(let r = 0; r < this.activeTetromino.length; r++){
     for(let c = 0; c < this.activeTetromino.length; c++){
       if(!this.activeTetromino[r][c]){
         continue;
