@@ -24,51 +24,39 @@ let p2;
 let board = [];
 let board2 = [];
 
-function drawSquare(x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x*SQ, y*SQ, SQ, SQ);
-
-  ctx.strokeStyle = 'black';
-  ctx.strokeRect(x*SQ, y*SQ, SQ, SQ);
+function drawSquare(x, y, color, canvas) {
+  canvas.fillStyle = color;
+  canvas.fillRect(x*SQ, y*SQ, SQ, SQ);
+  canvas.strokeStyle = 'black';
+  canvas.strokeRect(x*SQ, y*SQ, SQ, SQ);
 }
 
-function drawBoard() {
 
+function drawBoard() {
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
-      drawSquare(c, r, board[r][c]);
+      drawSquare(c, r, board[r][c], ctx);
     }
   }
 }
 
-function drawSquare2(x, y, color) {
-  ctx2.fillStyle = color;
-  ctx2.fillRect(x*SQ, y*SQ, SQ, SQ);
-
-  ctx2.strokeStyle = 'black';
-  ctx2.strokeRect(x*SQ, y*SQ, SQ, SQ);
-}
 
 function drawBoard2() {
   for (let r = 0; r < previewRow; r++) {
     for (let c = 0; c < previewCol; c++) {
-      drawSquare2(c, r, board[r][c]);
+      drawSquare(c, r, board[r][c], ctx2);
     }
   }
 }
 
 
-
-
 function randomPiece() {
-
   let r = Math.floor(Math.random() * PIECES.length);
   return new Piece( PIECES[r][0],PIECES[r][1]);
 }
 
 
 function Piece(tetromino, color) {
-
   this.tetromino = tetromino;
   this.color = color;
   this.tetrominoN = 0;
@@ -81,7 +69,7 @@ Piece.prototype.fill = function(color) {
   for ( r = 0; r < this.activeTetromino.length; r++){
     for (c = 0; c < this.activeTetromino.length; c++){
       if ( this.activeTetromino[r][c]){
-          drawSquare(this.x + c,this.y + r, color);
+          drawSquare(this.x + c,this.y + r, color, ctx);
       }
     }
   }
@@ -91,7 +79,7 @@ Piece.prototype.previewFill = function(color) {
   for ( r = 0; r < this.activeTetromino.length; r++){
     for (c = 0; c < this.activeTetromino.length; c++){
       if ( this.activeTetromino[r][c]){
-          drawSquare2(c, r, color);
+          drawSquare(c, r, color, ctx2);
       }
     }
   }
@@ -222,9 +210,6 @@ Piece.prototype.collision = function(x, y, piece) {
   }
   return false;
 };
-
-
-
 
 
 function drop() {
