@@ -53,3 +53,11 @@ input#menu:checked ~ .menu-content {
 #preview {
   position: relative;
 }
+
+.center {
+  text-align: center;
+}
+
+#score {
+  margin: 20px;
+}
