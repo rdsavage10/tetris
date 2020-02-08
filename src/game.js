@@ -25,7 +25,7 @@ let p;
 let p2;
 let board = [];
 let board2 = [];
-let gameLoop;
+var gameLoop;
 
 function drawSquare(x, y, color, canvas) {
   canvas.fillStyle = color;
@@ -45,15 +45,16 @@ function drawBoard(row, col, canvas) {
 
 
 function randomPiece() {
-  let r = Math.floor(Math.random() * PIECES.length);
-  return new Piece(PIECES[r][0], PIECES[r][1]);
+  let rand = Math.floor(Math.random() * PIECES.length);
+  let rotation = Math.floor(Math.random() * PIECES[rand][0].length);
+  return new Piece(PIECES[rand][0], PIECES[rand][1], rotation);
 }
 
 
-function Piece(tetromino, color) {
+function Piece(tetromino, color, rotation) {
   this.tetromino = tetromino;
   this.color = color;
-  this.tetrominoN = 0;
+  this.tetrominoN = rotation;
   this.activeTetromino = this.tetromino[this.tetrominoN];
   this.x = 3;
   this.y = -2;
@@ -84,7 +85,9 @@ Piece.prototype.draw = function() {
 };
 
 Piece.prototype.drawPreveiw = function() {
-  this.previewFill(this.color);
+  if (!gameOver) {
+    this.previewFill(this.color);
+  }
 };
 
 Piece.prototype.undraw = function() {
@@ -98,6 +101,10 @@ Piece.prototype.moveDown = function() {
     this.draw();
   } else {
     this.lock();
+    if (gameOver) {
+      drawBoard(previewRow, previewCol, ctx2);
+      return;
+    }
     p = p2;
     p2 = randomPiece();
     p2.drawPreveiw();
@@ -149,10 +156,17 @@ Piece.prototype.lock = function() {
         continue;
       }
       if(this.y + r < 0) {
-        alert("Game Over");
         gameOver = true;
+        console.log('game over');
+        ctx.font = '50px monospace';
+        ctx.fillStyle = 'red';
+        ctx.strokeStyle = 'white';
+        ctx.textAlign = "center";
+        ctx.fillText("Game Over", cvs.width/2, cvs.height/2);
+        // ctx.strokeText("Game Over", cvs.width/2, cvs.height/2);
         window.cancelAnimationFrame(gameLoop);
-        break;
+        menu.checked = false;
+        return;
       }
       board[this.y + r][this.x + c] = this.color;
     }
@@ -220,7 +234,6 @@ function drop() {
     p.moveDown();
     dropStart = Date.now();
   }
-
   if (!gameOver) {
     gameLoop = window.requestAnimationFrame(drop);
   }
@@ -229,19 +242,20 @@ function drop() {
 document.addEventListener('keydown', CONTROL);
 
 function CONTROL(event) {
-
-  if (event.keyCode === 37) {
-    event.preventDefault();
-    p.moveLeft();
-  } else if (event.keyCode === 38) {
-    event.preventDefault();
-    p.rotate();
-  } else if (event.keyCode === 39) {
-    event.preventDefault();
-    p.moveRight();
-  } else if (event.keyCode === 40) {
-    event.preventDefault();
-    p.moveDown();
+  if (!gameOver) {
+    if (event.keyCode === 37) {
+      event.preventDefault();
+      p.moveLeft();
+    } else if (event.keyCode === 38) {
+      event.preventDefault();
+      p.rotate();
+    } else if (event.keyCode === 39) {
+      event.preventDefault();
+      p.moveRight();
+    } else if (event.keyCode === 40) {
+      event.preventDefault();
+      p.moveDown();
+    }
   }
 }
 
@@ -263,7 +277,7 @@ function newGame() {
       board[r][c] = VACANT;
     }
   }
-    gameOver = false;
+
   drawBoard(gameRow, gameCol, ctx);
   drawBoard(previewRow, previewCol, ctx2);
   cvs.style.display = 'block';
