@@ -12,7 +12,7 @@ const nextElement = document.getElementById('next')
 const start = document.getElementById('start');
 
 let gameRow = 20;
-let gameCol = 10; //column
+let gameCol = 10;
 const previewRow = 4;
 const previewCol = 4;
 const SQ = 30; //square size
@@ -44,7 +44,7 @@ function drawBoard(row, col, canvas) {
 
 function randomPiece() {
   let r = Math.floor(Math.random() * PIECES.length);
-  return new Piece( PIECES[r][0],PIECES[r][1]);
+  return new Piece( PIECES[r][0], PIECES[r][1]);
 }
 
 
@@ -90,7 +90,7 @@ Piece.prototype.undraw = function() {
 };
 
 Piece.prototype.moveDown = function() {
-  if (!this.collision(0,1,this.activeTetromino)) {
+  if (!this.collision(0, 1, this.activeTetromino)) {
     this.undraw();
     this.y++;
     this.draw();
@@ -103,7 +103,7 @@ Piece.prototype.moveDown = function() {
 };
 
 Piece.prototype.moveLeft = function() {
-  if (!this.collision(-1,0,this.activeTetromino)) {
+  if (!this.collision(-1, 0, this.activeTetromino)) {
     this.undraw();
     this.x--;
     this.draw();
@@ -111,7 +111,7 @@ Piece.prototype.moveLeft = function() {
 };
 
 Piece.prototype.moveRight = function() {
-  if (!this.collision(1,0,this.activeTetromino)) {
+  if (!this.collision(1, 0, this.activeTetromino)) {
     this.undraw();
     this.x++;
     this.draw();
@@ -119,11 +119,11 @@ Piece.prototype.moveRight = function() {
 };
 
 Piece.prototype.rotate = function() {
-  let newPattern = this.tetromino[(this.tetrominoN + 1)%this.tetromino.length];
+  let newPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
   let kick = 0;
 
-  if (this.collision(0,0,newPattern)) {
-    if (this.x > col/2) {
+  if (this.collision(0, 0, newPattern)) {
+    if (this.x > col / 2) {
       kick = -1;
     } else {
       kick = 1;
@@ -131,7 +131,7 @@ Piece.prototype.rotate = function() {
   }
 
 
-  if (!this.collision(kick,0,newPattern)) {
+  if (!this.collision(kick, 0, newPattern)) {
     this.undraw();
     this.x += kick;
     this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
@@ -143,7 +143,7 @@ Piece.prototype.rotate = function() {
 Piece.prototype.lock = function() {
   for( let r = 0; r < this.activeTetromino.length; r++){
     for(let c = 0; c < this.activeTetromino.length; c++){
-      if( !this.activeTetromino[r][c]){
+      if(!this.activeTetromino[r][c]){
         continue;
       }
       if(this.y + r < 0){
@@ -166,7 +166,7 @@ Piece.prototype.lock = function() {
           board[y][c] = board[y - 1][c];
         }
       }
-      for ( let c = 0; c < col; c++) {
+      for (let c = 0; c < col; c++) {
         board[0][c] = VACANT;
       }
       score += col;
@@ -267,7 +267,7 @@ function newGame() {
   drop();
 }
 
-menuLabel.addEventListener("mouseenter", function( event ) {
+menuLabel.addEventListener("mouseenter", function(event) {
   if (menu.checked) {
     event.target.innerHTML = "Expand";
   } else {
@@ -275,7 +275,7 @@ menuLabel.addEventListener("mouseenter", function( event ) {
   }
 });
 
-menuLabel.addEventListener("mouseleave", function( event ) {
+menuLabel.addEventListener("mouseleave", function(event) {
   event.target.innerHTML = "Menu";
 
 });
