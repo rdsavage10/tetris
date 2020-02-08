@@ -8,6 +8,7 @@ const cvs2 = document.getElementById('preview');
 const ctx = cvs.getContext('2d');
 const ctx2 = cvs2.getContext('2d');
 const scoreElement = document.getElementById('score');
+const nextElement = document.getElementById('next')
 const start = document.getElementById('start');
 
 let row = 20;
@@ -272,6 +273,7 @@ function newGame() {
   drawBoard2();
   cvs.style.display = 'block';
   scoreElement.style.display = 'block';
+  nextElement.style.display = 'inline';
   p.draw();
   p2.drawPreveiw();
   drop();
@@ -283,7 +285,6 @@ menuLabel.addEventListener("mouseenter", function( event ) {
   } else {
     event.target.innerHTML = "Collapse";
   }
-
 });
 
 menuLabel.addEventListener("mouseleave", function( event ) {

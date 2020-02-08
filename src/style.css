@@ -2,13 +2,14 @@ header {
   text-align: center;
 }
 
-div{
+div {
     font-size: 25px;
     font-weight: bold;
     font-family: monospace;
     text-align: center;
 }
-canvas{
+
+canvas {
     display: block;
     margin: 20px auto;
 }
@@ -52,10 +53,6 @@ input#menu:checked ~ .menu-content {
 
 #preview {
   position: relative;
-}
-
-.center {
-  text-align: center;
 }
 
 #score {
