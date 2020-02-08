@@ -270,6 +270,7 @@ function newGame() {
   scoreElement.innerHTML = 'Score: ' + score;
   scoreElement.style.display = 'block';
   nextElement.style.display = 'inline';
+  menu.checked = true;
   p.draw();
   p2.drawPreveiw();
   drop();
