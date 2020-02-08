@@ -8,7 +8,7 @@ const cvs2 = document.getElementById('preview');
 const ctx = cvs.getContext('2d');
 const ctx2 = cvs2.getContext('2d');
 const scoreElement = document.getElementById('score');
-const nextElement = document.getElementById('next')
+const nextElement = document.getElementById('next');
 const start = document.getElementById('start');
 
 let gameRow = 20;
@@ -58,9 +58,9 @@ function Piece(tetromino, color) {
 }
 
 Piece.prototype.fill = function(color) {
-  for (r = 0; r < this.activeTetromino.length; r++){
-    for (c = 0; c < this.activeTetromino.length; c++){
-      if (this.activeTetromino[r][c]){
+  for (r = 0; r < this.activeTetromino.length; r++) {
+    for (c = 0; c < this.activeTetromino.length; c++) {
+      if (this.activeTetromino[r][c]) {
           drawSquare(this.x + c,this.y + r, color, ctx);
       }
     }
@@ -68,9 +68,9 @@ Piece.prototype.fill = function(color) {
 };
 
 Piece.prototype.previewFill = function(color) {
-  for  (r = 0; r < this.activeTetromino.length; r++){
-    for (c = 0; c < this.activeTetromino.length; c++){
-      if (this.activeTetromino[r][c]){
+  for  (r = 0; r < this.activeTetromino.length; r++) {
+    for (c = 0; c < this.activeTetromino.length; c++) {
+      if (this.activeTetromino[r][c]) {
           drawSquare(c, r, color, ctx2);
       }
     }
@@ -141,12 +141,12 @@ Piece.prototype.rotate = function() {
 };
 
 Piece.prototype.lock = function() {
-  for(let r = 0; r < this.activeTetromino.length; r++){
-    for(let c = 0; c < this.activeTetromino.length; c++){
-      if(!this.activeTetromino[r][c]){
+  for(let r = 0; r < this.activeTetromino.length; r++) {
+    for(let c = 0; c < this.activeTetromino.length; c++) {
+      if(!this.activeTetromino[r][c]) {
         continue;
       }
-      if(this.y + r < 0){
+      if(this.y + r < 0) {
         alert("Game Over");
         gameOver = true;
         break;
