@@ -277,14 +277,10 @@ function newGame() {
 }
 
 menuLabel.addEventListener("mouseenter", function(event) {
-  if (menu.checked) {
-    event.target.innerHTML = "Expand";
-  } else {
-    event.target.innerHTML = "Collapse";
-  }
+  event.target.style.fontSize = '27px';
 });
 
 menuLabel.addEventListener("mouseleave", function(event) {
-  event.target.innerHTML = "Menu";
+  event.target.style.fontSize = 'inherit';
 
 });

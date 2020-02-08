@@ -1,12 +1,24 @@
+body {
+  font-family: monospace;
+  font-weight: bold;
+}
+
 header {
   text-align: center;
 }
 
 div {
     font-size: 25px;
-    font-weight: bold;
-    font-family: monospace;
     text-align: center;
+}
+
+p {
+  font-size: 14px;
+  text-align: left;
+}
+
+p span {
+  font-size: 20px;
 }
 
 canvas {
@@ -66,4 +78,9 @@ input#menu:checked ~ .menu-content {
 
 #score {
   margin: 20px;
+}
+
+#controls {
+  margin-top: 6px;
+  border: 1px solid grey;
 }
