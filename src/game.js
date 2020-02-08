@@ -217,8 +217,8 @@ function drop() {
 
   let now = Date.now();
   let deltaTime = now - dropStart;
-
-  if (deltaTime > 1000) {
+  let delay = 1000 - score * 1.2;
+  if (deltaTime > delay) {
     p.moveDown();
     dropStart = Date.now();
   }
