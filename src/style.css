@@ -52,4 +52,7 @@ input#menu:checked ~ .menu-content {
 
 #preview {
   position: relative;
+  left: 250px;
+  bottom: 600px;
+  /* margin-left: 75%; */
 }

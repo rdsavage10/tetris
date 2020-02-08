@@ -23,6 +23,7 @@ let p;
 let p2;
 let board = [];
 let board2 = [];
+let gameLoop;
 
 function drawSquare(x, y, color) {
   ctx.fillStyle = color;
@@ -56,9 +57,6 @@ function drawBoard2() {
     }
   }
 }
-
-
-
 
 function randomPiece() {
 
@@ -169,6 +167,7 @@ Piece.prototype.lock = function() {
       if(this.y + r < 0){
         alert("Game Over");
         gameOver = true;
+        window.cancelAnimationFrame(gameLoop);
         break;
       }
       board[this.y + r][this.x + c] = this.color;
@@ -228,7 +227,6 @@ Piece.prototype.collision = function(x, y, piece) {
 
 
 function drop() {
-
   let now = Date.now();
   let deltaTime = now - dropStart;
 
@@ -238,7 +236,7 @@ function drop() {
   }
 
   if (!gameOver) {
-    requestAnimationFrame(drop);
+    gameLoop = window.requestAnimationFrame(drop);
   }
 }
 
@@ -282,7 +280,6 @@ function newGame() {
       board[r][c] = VACANT;
     }
   }
-    gameOver = false;
   drawBoard();
   drawBoard2();
   cvs.style.display = 'block';
