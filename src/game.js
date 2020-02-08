@@ -68,7 +68,7 @@ Piece.prototype.fill = function(color) {
 };
 
 Piece.prototype.previewFill = function(color) {
-  for  r = 0; r < this.activeTetromino.length; r++){
+  for  (r = 0; r < this.activeTetromino.length; r++){
     for (c = 0; c < this.activeTetromino.length; c++){
       if (this.activeTetromino[r][c]){
           drawSquare(c, r, color, ctx2);
