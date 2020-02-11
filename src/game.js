@@ -295,13 +295,4 @@ function newGame() {
   p.draw();
   p2.drawPreveiw();
   drop();
-}
-
-menuLabel.addEventListener("mouseenter", function(event) {
-  event.target.style.fontSize = '27px';
-});
-
-menuLabel.addEventListener("mouseleave", function(event) {
-  event.target.style.fontSize = 'inherit';
-
-});
+}ß
