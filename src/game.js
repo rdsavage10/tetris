@@ -295,4 +295,4 @@ function newGame() {
   p.draw();
   p2.drawPreveiw();
   drop();
-}ß
+}
