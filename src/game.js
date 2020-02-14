@@ -58,13 +58,14 @@ function Piece(tetromino, color, rotation) {
   this.activeTetromino = this.tetromino[this.tetrominoN];
   this.x = 3;
   this.y = -2;
+  this.pathY = null;
 }
 
-Piece.prototype.fill = function(color) {
+Piece.prototype.fill = function(x, y, color) {
   for (r = 0; r < this.activeTetromino.length; r++) {
     for (c = 0; c < this.activeTetromino.length; c++) {
       if (this.activeTetromino[r][c]) {
-          drawSquare(this.x + c,this.y + r, color, ctx);
+          drawSquare(x + c, y + r, color, ctx);
       }
     }
   }
@@ -81,7 +82,7 @@ Piece.prototype.previewFill = function(color) {
 };
 
 Piece.prototype.draw = function() {
-  this.fill(this.color);
+  this.fill(this.x, this.y, this.color);
 };
 
 Piece.prototype.drawPreveiw = function() {
@@ -91,7 +92,28 @@ Piece.prototype.drawPreveiw = function() {
 };
 
 Piece.prototype.undraw = function() {
-  this.fill(VACANT);
+  this.fill(this.x, this.y, VACANT);
+};
+
+
+Piece.prototype.moveLeft = function() {
+  if (!this.collision(-1, 0, this.activeTetromino)) {
+    this.undrawPath();
+    this.undraw();
+    this.x--;
+    this.drawPath();
+    this.draw();
+  }
+};
+
+Piece.prototype.moveRight = function() {
+  if (!this.collision(1, 0, this.activeTetromino)) {
+    this.undrawPath();
+    this.undraw();
+    this.x++;
+    this.drawPath();
+    this.draw();
+  }
 };
 
 Piece.prototype.moveDown = function() {
@@ -105,26 +127,11 @@ Piece.prototype.moveDown = function() {
       drawBoard(previewRow, previewCol, ctx2);
       return;
     }
-    this.lineClear();
+    this.clearLine();
     p = p2;
+    p.drawPath();
     p2 = randomPiece();
     p2.drawPreveiw();
-  }
-};
-
-Piece.prototype.moveLeft = function() {
-  if (!this.collision(-1, 0, this.activeTetromino)) {
-    this.undraw();
-    this.x--;
-    this.draw();
-  }
-};
-
-Piece.prototype.moveRight = function() {
-  if (!this.collision(1, 0, this.activeTetromino)) {
-    this.undraw();
-    this.x++;
-    this.draw();
   }
 };
 
@@ -142,10 +149,12 @@ Piece.prototype.rotate = function() {
 
 
   if (!this.collision(kick, 0, newPattern)) {
+    this.undrawPath();
     this.undraw();
     this.x += kick;
     this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
     this.activeTetromino = this.tetromino[this.tetrominoN];
+    this.drawPath();
     this.draw();
   }
 };
@@ -174,7 +183,31 @@ Piece.prototype.lock = function() {
   }
 };
 
-Piece.prototype.lineClear = function() {
+Piece.prototype.drawPath = function() {
+  let bottom;
+  let spacing;
+  for (var i = this.activeTetromino.length - 1; i > 0 ; i--) {
+    if (this.activeTetromino[i].includes(1)) {
+      bottom = this.activeTetromino[i];
+      spacing = i + this.activeTetromino.length;
+      break;
+    }
+  }
+  for (let y = this.y + spacing ; y < gameRow + 1; y++) {
+    if(this.pathCollision(y, bottom)) {
+      this.pathY = y - i - 1;
+      this.fill(this.x, this.pathY, this.color.slice(0, -2) + "0.2)");
+      break;
+    }
+  }
+};
+
+Piece.prototype.undrawPath = function() {
+  this.fill(this.x, this.pathY, VACANT);
+};
+
+
+Piece.prototype.clearLine = function() {
     let points = 0;
     let combo = 0;
     for (let r = 0; r < row; r++) {
@@ -225,6 +258,25 @@ Piece.prototype.collision = function(x, y, piece) {
     }
   }
   return false;
+};
+
+Piece.prototype.pathCollision = function(y, piece) {
+  for (let c = 0; c < piece.length; c++) {
+    if (!piece[c]) {
+        continue;
+    }
+
+    let x = this.x + c;
+
+    if (y >= row) {
+        return true;
+    }
+
+    if (board[y][x] !== VACANT) {
+      return true;
+    }
+  }
+return false;
 };
 
 
@@ -292,6 +344,7 @@ function newGame() {
   scoreElement.style.display = 'block';
   nextElement.style.display = 'inline';
   menu.checked = true;
+  p.drawPath();
   p.draw();
   p2.drawPreveiw();
   drop();

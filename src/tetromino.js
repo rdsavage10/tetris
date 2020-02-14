@@ -178,12 +178,12 @@ const LI = [
 
 
 const PIECES = [
-  [Z,'red'],
-  [S,'green'],
-  [T,'purple'],
-  [O,'yellow'],
-  [L,'orange'],
-  [I,'cyan'],
-  [J,'blue'],
-	[LI, 'pink']
+  [Z,'rgba(255, 0, 0, 1)'],
+  [S,'rgba(0, 128, 0, 1)'],
+  [T,'rgba(128, 0, 128, 1)'],
+  [O,'rgba(255, 255, 0, 1)'],
+  [L,'rgba(255, 166, 0, 1)'],
+  [I,'rgba(0, 255, 255, 1)'],
+  [J,'rgba(0, 0, 255, 1)'],
+	[LI, 'rgba(255, 99, 214, 1)']
 ];
