@@ -62,38 +62,29 @@ function Piece(tetromino, color, rotation) {
   this.pathY = null;
 }
 
-Piece.prototype.fill = function(x, y, color) {
+Piece.prototype.fill = function(x, y, color, canvas) {
   for (r = 0; r < this.activeTetromino.length; r++) {
     for (c = 0; c < this.activeTetromino.length; c++) {
       if (this.activeTetromino[r][c]) {
-          drawSquare(x + c, y + r, color, ctx);
+          drawSquare(x + c, y + r, color, canvas);
       }
     }
   }
 };
 
-Piece.prototype.previewFill = function(color) {
-  for  (r = 0; r < this.activeTetromino.length; r++) {
-    for (c = 0; c < this.activeTetromino.length; c++) {
-      if (this.activeTetromino[r][c]) {
-          drawSquare(c, r, color, ctx2);
-      }
-    }
-  }
-};
 
 Piece.prototype.draw = function() {
-  this.fill(this.x, this.y, this.color);
+  this.fill(this.x, this.y, this.color, ctx);
 };
 
 Piece.prototype.drawPreveiw = function() {
   if (!gameOver) {
-    this.previewFill(this.color);
+    this.fill(0, 0, this.color, ctx2);
   }
 };
 
 Piece.prototype.undraw = function() {
-  this.fill(this.x, this.y, VACANT);
+  this.fill(this.x, this.y, VACANT, ctx);
 };
 
 
@@ -197,14 +188,14 @@ Piece.prototype.drawPath = function() {
   for (let y = this.y + spacing; y <= gameRow; y++) {
     if(this.pathCollision(y, this.activeTetromino)) {
       this.pathY = y - 1;
-      this.fill(this.x, this.pathY, this.pathColor);
+      this.fill(this.x, this.pathY, this.pathColor, ctx);
       break;
     }
   }
 };
 
 Piece.prototype.undrawPath = function() {
-  this.fill(this.x, this.pathY, VACANT);
+  this.fill(this.x, this.pathY, VACANT, ctx);
 };
 
 
