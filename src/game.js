@@ -54,6 +54,7 @@ function randomPiece() {
 function Piece(tetromino, color, rotation) {
   this.tetromino = tetromino;
   this.color = color;
+  this.pathColor = this.color.slice(0, -2) + "0.2)";
   this.tetrominoN = rotation;
   this.activeTetromino = this.tetromino[this.tetrominoN];
   this.x = 3;
@@ -186,17 +187,17 @@ Piece.prototype.lock = function() {
 Piece.prototype.drawPath = function() {
   let bottom;
   let spacing;
-  for (var i = this.activeTetromino.length - 1; i > 0 ; i--) {
+  for (var i = this.activeTetromino.length - 1; i >= 0 ; i--) {
     if (this.activeTetromino[i].includes(1)) {
       bottom = this.activeTetromino[i];
-      spacing = i + this.activeTetromino.length;
+      spacing = i + 1;
       break;
     }
   }
-  for (let y = this.y + spacing ; y < gameRow + 1; y++) {
-    if(this.pathCollision(y, bottom)) {
-      this.pathY = y - i - 1;
-      this.fill(this.x, this.pathY, this.color.slice(0, -2) + "0.2)");
+  for (let y = this.y + spacing; y <= gameRow; y++) {
+    if(this.pathCollision(y, this.activeTetromino)) {
+      this.pathY = y - 1;
+      this.fill(this.x, this.pathY, this.pathColor);
       break;
     }
   }
@@ -261,19 +262,22 @@ Piece.prototype.collision = function(x, y, piece) {
 };
 
 Piece.prototype.pathCollision = function(y, piece) {
-  for (let c = 0; c < piece.length; c++) {
-    if (!piece[c]) {
+  for (let r = 0; r < piece.length; r++) {
+    for (let c = 0; c < piece.length; c++) {
+      if (!piece[r][c]) {
         continue;
-    }
+      }
 
-    let x = this.x + c;
+      let newX = this.x + c;
+      let newY = y + r;
 
-    if (y >= row) {
+      if (newY >= row) {
         return true;
-    }
+      }
 
-    if (board[y][x] !== VACANT) {
-      return true;
+      if (board[newY][newX] !== VACANT) {
+        return true;
+      }
     }
   }
 return false;
